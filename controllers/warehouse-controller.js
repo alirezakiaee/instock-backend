@@ -1,5 +1,4 @@
 const knex = require("knex")(require("../knexfile"));
-
 const warehouseList = (req, res) => {
   knex("warehouses")
     .select("*")
