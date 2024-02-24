@@ -1,6 +1,8 @@
 const { response } = require('express');
 
 const knex = require('knex')(require('../knexfile'));
+
+//Query to get all warehouses 
 const warehouseList = (req,res)=> {
     knex('warehouses')
     .select('*')
@@ -12,4 +14,4 @@ const warehouseList = (req,res)=> {
     });
 };
 
-module.exports = {  warehouseList };
+module.exports = {  warehouseList};
