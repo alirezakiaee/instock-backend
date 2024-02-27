@@ -1,3 +1,4 @@
+
 const knex = require("knex")(require("../knexfile"));
 const warehouseList = (req, res) => {
   knex("warehouses")
@@ -48,4 +49,21 @@ const deleteWarehouse = (req, res) => {
     });
 };
 
-module.exports = { warehouseList, deleteWarehouse };
+
+const newWarehouse = (req, res) => {
+  knex("warehouses")
+    .insert(req.body)
+    .then((ids) => {
+      insertedId = ids[0];
+      return knex("warehouses").where("id", insertedId).first();
+    })
+    .then((result) => {
+      res.json(result).status(201);
+    })
+    .catch((error) => {
+      res.json(error);
+    });
+};
+
+module.exports = { warehouseList, newWarehouse , deleteWarehouse};
+
