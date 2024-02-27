@@ -16,6 +16,9 @@ router.get('/warehouses/:id/inventories', inventoryController.inventoryByWarehou
 
 router.delete('/inventories/:id', inventoryController.deleteInventory);
 
+// route to fetch inventory details with warehouse names
+router.get('/inventories-warehouses/:id', inventoryController.inventoryDetails);
+
 
 module.exports = router;
 
