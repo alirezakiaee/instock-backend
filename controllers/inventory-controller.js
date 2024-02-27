@@ -25,7 +25,7 @@ const addInventoryItem = async (req, res) => {
     try {
         const warehouseExists = await knex('warehouses').where('id', warehouse_id).first();
         if (!warehouseExists) {
-            return res.status(400).json({ message: 'warehouse_id value does not exist in the warehouses table' });
+            return res.status(400).json({ message: 'warehouse_id does not exist in the warehouses table' });
         }
 
         const [createdItemId] = await knex('inventories').insert({
