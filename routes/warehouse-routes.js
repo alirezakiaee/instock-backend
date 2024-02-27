@@ -4,8 +4,8 @@ const warehouseController = require("../controllers/warehouse-controller");
 // Route for the DELETE request
 router.delete("/warehouses/:id", warehouseController.deleteWarehouse);
 
-router.get("/warehouses", warehousesController.warehouseList);
+router.get("/warehouses", warehouseController.warehouseList);
 
-router.post("/warehouses", warehousesController.newWarehouse);
+router.post("/warehouses", warehouseController.newWarehouse);
 
 module.exports = router;
