@@ -1,5 +1,9 @@
-const router = require('express').Router();
-const inventoryController = require('../controllers/inventory-controller');
+const router = require("express").Router();
+const inventoryController = require("../controllers/inventory-controller");
+
+
+// POST route to add a new inventory item
+router.post("/inventories", inventoryController.addInventoryItem);
 
 // route to fetch all inventories
 router.get('/inventories', inventoryController.inventoryList);
@@ -14,3 +18,4 @@ router.delete('/inventories/:id', inventoryController.deleteInventory);
 
 
 module.exports = router;
+
