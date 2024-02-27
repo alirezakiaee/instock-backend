@@ -6,5 +6,11 @@
     "knex": "^3.1.0",
     "mysql": "^2.18.1",
     "nodemon": "^3.0.3"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "dev": "npx nodemon index.js",
+    "migrate": "npx knex migrate:latest",
+    "seed": "npx knex seed:run"
   }
 }
