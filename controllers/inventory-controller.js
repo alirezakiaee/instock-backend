@@ -49,7 +49,7 @@ const inventoryByWarehouseId = (req,res)=> {
     const warehouseId = req.params.id;
 
     knex('inventories')
-    .select('item_name', 'category', 'status', 'quantity')
+    .select('id', 'item_name', 'description', 'category', 'status', 'quantity')
     .where('warehouse_id', warehouseId)
     .then(data => {
         res.status(200).json(data);
