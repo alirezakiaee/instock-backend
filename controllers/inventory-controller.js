@@ -45,6 +45,62 @@ const addInventoryItem = async (req, res) => {
     }
 };
 
+const editInventoryItem = async (req, res) => {
+  const id = req.params.id;
+  const { warehouse_id, item_name, description, category, status, quantity } =
+    req.body;
+
+  if (
+    !warehouse_id ||
+    !item_name ||
+    !description ||
+    !category ||
+    !status ||
+    quantity === undefined
+  ) {
+    return res
+      .status(400)
+      .json({ message: "All values are required and must be non-empty" });
+  }
+
+  if (isNaN(Number(quantity))) {
+    return res.status(400).json({ message: "Quantity must be a number" });
+  }
+
+  try {
+    const warehouseExists = await knex("warehouses")
+      .where("id", warehouse_id)
+      .first();
+    if (!warehouseExists) {
+      return res  //---don't forget the "return" keyword
+        .status(400)
+        .json({
+          message: "warehouse_id value does not exist in the warehouses table",
+        });
+    }
+
+    const updatedItem = await knex("inventories")
+      .where("id", id)
+      .update({
+        warehouse_id,
+        item_name,
+        description,
+        category,
+        status,
+        quantity: Number(quantity),
+      })
+      .returning("*");
+
+    if (!updatedItem) {
+      return res.status(404).end(); //--- don't forget the "return" keyword
+    }
+
+    res.status(200).json(updatedItem); //-- if we receive 1 in postman, it is working
+  } catch (error) {
+    console.error("Error updating inventory:", error);
+    res.status(500).send("Internal Server Error");
+  }
+};
 const inventoryByWarehouseId = (req,res)=> {
     const warehouseId = req.params.id;
 
@@ -91,5 +147,5 @@ const inventoryWarehouseList = (req, res) => {
     });
 }
 
-module.exports = {  inventoryList , inventoryWarehouseList , deleteInventory , inventoryByWarehouseId , addInventoryItem };
+module.exports = {  inventoryList , inventoryWarehouseList , deleteInventory , inventoryByWarehouseId , addInventoryItem ,editInventoryItem };
 
