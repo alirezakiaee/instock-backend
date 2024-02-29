@@ -16,8 +16,15 @@ router.get('/warehouses/:id/inventories', inventoryController.inventoryByWarehou
 
 router.delete('/inventories/:id', inventoryController.deleteInventory);
 
+
 // route to fetch inventory details with warehouse names
 router.get('/inventories-warehouses/:id', inventoryController.inventoryDetails);
+
+
+// POST route to add a new inventory item
+router.post("/inventories", inventoryController.addInventoryItem);
+// PUT route to edit an inventory item
+router.put("/inventories/:id", inventoryController.editInventoryItem);
 
 
 module.exports = router;
