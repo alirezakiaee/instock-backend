@@ -143,9 +143,28 @@ const inventoryWarehouseList = (req, res) => {
         res.status(200).json(inventories);
     })
     .catch(error => {
-        res.status(404).json({ message: `Error: ${err}` });
+        res.status(404).json({ message: `Error getting the list` });
     });
 }
 
-module.exports = {  inventoryList , inventoryWarehouseList , deleteInventory , inventoryByWarehouseId , addInventoryItem ,editInventoryItem };
+// GET inventory details with warehouse names
+const inventoryDetails = (req, res) => {
+
+    const inventoryId = req.params.id;
+
+    knex('inventories')
+    .join('warehouses', 'inventories.warehouse_id', '=', 'warehouses.id')
+    .where('inventories.id', inventoryId)
+    .select('inventories.*', 'warehouses.warehouse_name as warehouse_name')
+    .then(inventoryDetail => {
+        res.status(200).json(inventoryDetail);
+    })
+    .catch(error => {
+        res.status(404).json({ message: `Error getting the inventory details` });
+    });
+}
+
+
+module.exports = {  inventoryList , inventoryWarehouseList , deleteInventory , inventoryByWarehouseId , addInventoryItem ,editInventoryItem, inventoryDetails };
+
 
