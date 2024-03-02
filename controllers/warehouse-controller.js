@@ -1,4 +1,3 @@
-
 const knex = require("knex")(require("../knexfile"));
 const warehouseList = (req, res) => {
   knex("warehouses")
@@ -49,7 +48,6 @@ const deleteWarehouse = (req, res) => {
     });
 };
 
-
 const newWarehouse = (req, res) => {
   knex("warehouses")
     .insert(req.body)
@@ -65,5 +63,45 @@ const newWarehouse = (req, res) => {
     });
 };
 
-module.exports = { warehouseList, newWarehouse , deleteWarehouse};
+const editWarehouse = async (req, res) => {
+  let warehouseId = req.params.id;
+  let {
+    warehouse_name,
+    address,
+    city,
+    country,
+    contact_name,
+    contact_position,
+    contact_phone,
+    contact_email,
+  } = req.body;
+  try {
+    let updated = await knex("warehouses").where("id", warehouseId).update({
+      warehouse_name,
+      address,
+      city,
+      country,
+      contact_name,
+      contact_position,
+      contact_phone,
+      contact_email,
+    });
 
+    if (!updated) {
+      return res.status(404).json({ message: `Warehouse not found` });
+    }
+
+    const updatedWarehouse = await knex("warehouses")
+      .where("id", warehouseId)
+      .first();
+    res.status(200).json(updatedWarehouse);
+  } catch (error) {
+    res.status(500).json({ message: `Error updating warehouse:${error}` });
+  }
+};
+module.exports = {
+  warehouseList,
+  newWarehouse,
+  deleteWarehouse,
+  editWarehouse,
+};

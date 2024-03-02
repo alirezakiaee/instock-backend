@@ -8,4 +8,6 @@ router.get("/warehouses", warehouseController.warehouseList);
 
 router.post("/warehouses", warehouseController.newWarehouse);
 
+router.put("/warehouses/:id", warehouseController.editWarehouse);
+
 module.exports = router;
